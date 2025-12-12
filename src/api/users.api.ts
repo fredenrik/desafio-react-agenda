@@ -23,7 +23,6 @@ export interface UsersResponse {
 }
 
 export const usersApi = {
-
   getUsers: async (
     page: number = PAGINATION_CONFIG.DEFAULT_PAGE,
     limit: number = PAGINATION_CONFIG.DEFAULT_PAGE_SIZE,
