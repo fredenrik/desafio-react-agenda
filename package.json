@@ -1,13 +1,43 @@
 {
   "name": "previred-frontend-test",
+  "private": true,
   "version": "1.0.0",
+  "type": "module",
   "description": "Agenda de contactos",
-  "main": "index.js",
   "scripts": {
-    "start-server": "node server.js"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/server.cjs",
+    "client": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\"",
+    "preview": "vite preview"
   },
-  "author": "dev@previred.com",
+  "author": "Freddy Rodriguez",
+  "dependencies": {
+    "antd": "^5.12.8",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
   "devDependencies": {
-    "json-server": "^0.17.4"
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^8.2.2",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "json-server": "^0.17.4",
+    "prettier": "^3.7.4",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4"
   }
 }

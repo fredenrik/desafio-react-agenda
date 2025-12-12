@@ -1,0 +1,30 @@
+# Dependencias
+node_modules
+
+# Build
+dist
+dist-ssr
+build
+
+# Archivos generados
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Assets
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.gif
+*.ico
+
+# Config
+.git
+.vscode
+.idea
+
+# Server
+server/db.json
