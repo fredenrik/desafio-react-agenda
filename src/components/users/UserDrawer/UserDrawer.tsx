@@ -1,4 +1,5 @@
 import { Drawer, Button, Space, Form } from 'antd';
+import { useResponsive } from '../../../context';
 import { UserForm } from '../UserForm';
 import type { CreateUserData } from '../../../api';
 
@@ -10,6 +11,7 @@ interface UserDrawerProps {
 
 export const UserDrawer = ({ open, onClose, onSuccess }: UserDrawerProps) => {
   const [form] = Form.useForm<CreateUserData>();
+  const { isMobile } = useResponsive();
 
   const handleSuccess = () => {
     onClose();
@@ -28,17 +30,14 @@ export const UserDrawer = ({ open, onClose, onSuccess }: UserDrawerProps) => {
   return (
     <Drawer
       title="Agregar Nuevo Contacto"
+      placement={isMobile ? 'bottom' : 'right'}
       width={520}
+      height={isMobile ? '85vh' : undefined}
       onClose={handleCancel}
       open={open}
       styles={{
         body: {
           paddingBottom: 80,
-          backgroundColor: '#f1f1f1',
-        },
-        header: {
-          backgroundColor: '#f1f1f1',
-          padding: '16px 24px',
         },
       }}
       extra={

@@ -1,15 +1,11 @@
-import { List, Avatar, Button, Popconfirm, Row, Col, Typography, Flex, Divider } from 'antd';
-import { UserOutlined, DeleteOutlined } from '@ant-design/icons';
+import { List } from 'antd';
+import { useResponsive } from '../../../context';
+import { UserListHeader } from './UserListHeader';
+import { UserListItem } from './UserListItem';
+import { UserListCard } from './UserListCard';
 import type { User } from '../../../api';
+
 import styles from './UserList.module.css';
-
-const { Text } = Typography;
-
-const LAYOUT_COLS = {
-  NAME: 8,
-  DESCRIPTION: 12,
-  ACTIONS: 4,
-} as const;
 
 interface UserListProps {
   users: User[];
@@ -23,73 +19,51 @@ interface UserListProps {
   };
 }
 
-const Header = () => (
-  <Row className={styles.header}>
-    <Col span={LAYOUT_COLS.NAME} className={styles.colLeft}>
-      <Text strong>Nombre</Text>
-    </Col>
-    <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.colLeft}>
-      <Text strong>Descripción</Text>
-    </Col>
-    <Col span={LAYOUT_COLS.ACTIONS} className={styles.colCenter}>
-      <Text strong>Acciones</Text>
-    </Col>
-  </Row>
-);
-
 export const UserList = ({ users, loading, onDeleteUser, pagination }: UserListProps) => {
-  return (
-    <>
+  const { isMobile } = useResponsive();
+
+  const paginationConfig = pagination
+    ? {
+        align: (isMobile ? 'center' : 'end') as 'center' | 'end',
+        current: pagination.current,
+        pageSize: pagination.pageSize,
+        total: pagination.total,
+        onChange: pagination.onChange,
+        showSizeChanger: false,
+        showTotal: (total: number, range: [number, number]) =>
+          !isMobile ? `${range[0]}-${range[1]} de ${total} contactos` : '',
+      }
+    : false;
+
+  if (isMobile) {
+    return (
       <List
         className={styles.userList}
-        itemLayout="horizontal"
-        header={<Header />}
         loading={loading}
         dataSource={users}
         locale={{ emptyText: 'No se encontraron contactos' }}
-        pagination={
-          pagination
-            ? {
-                current: pagination.current,
-                pageSize: pagination.pageSize,
-                total: pagination.total,
-                onChange: pagination.onChange,
-                showSizeChanger: false,
-                showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} contactos`,
-              }
-            : false
-        }
-        renderItem={(user, index) => (
-          <>
-            <Row className={styles.row}>
-              <Col span={LAYOUT_COLS.NAME} className={styles.colLeft}>
-                <Flex gap={16} align={'center'}>
-                  <Avatar size={64} src={user.photo} icon={<UserOutlined />} />
-                  <span style={{ color: '#1890ff', fontSize: '16px' }}>{user.name}</span>
-                </Flex>
-              </Col>
-              <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.colLeft}>
-                <Text>{user.description}</Text>
-              </Col>
-              <Col span={LAYOUT_COLS.ACTIONS} className={styles.colCenter}>
-                <Popconfirm
-                  key="delete"
-                  title="¿Eliminar contacto?"
-                  description="Esta acción no se puede deshacer"
-                  onConfirm={() => onDeleteUser?.(user.id)}
-                  okText="Eliminar"
-                  cancelText="Cancelar"
-                  okButtonProps={{ danger: true }}
-                >
-                  <Button type="text" icon={<DeleteOutlined style={{ fontSize: '20px' }} />} />
-                </Popconfirm>
-              </Col>
-            </Row>
-
-            {index < users.length - 1 && <Divider style={{ margin: 0 }} />}
-          </>
+        pagination={paginationConfig}
+        renderItem={user => (
+          <List.Item style={{ padding: 0 }}>
+            <UserListCard user={user} onDelete={onDeleteUser} />
+          </List.Item>
         )}
       />
-    </>
+    );
+  }
+
+  return (
+    <List
+      className={styles.userList}
+      itemLayout="horizontal"
+      header={<UserListHeader />}
+      loading={loading}
+      dataSource={users}
+      locale={{ emptyText: 'No se encontraron contactos' }}
+      pagination={paginationConfig}
+      renderItem={(user, index) => (
+        <UserListItem user={user} showDivider={index < users.length - 1} onDelete={onDeleteUser} />
+      )}
+    />
   );
 };
