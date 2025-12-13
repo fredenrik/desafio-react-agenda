@@ -19,6 +19,18 @@ interface UserListProps {
   };
 }
 
+/**
+ * Lista de usuarios con soporte responsive
+ *
+ * En desktop muestra una tabla horizontal con cabecera,
+ * en mobile muestra tarjetas verticales
+ *
+ * @param props - Props del componente
+ * @param props.users - Array de usuarios a mostrar
+ * @param props.loading - Estado de carga
+ * @param props.onDeleteUser - Callback al eliminar un usuario
+ * @param props.pagination - Configuración de paginación
+ */
 export const UserList = ({ users, loading, onDeleteUser, pagination }: UserListProps) => {
   const { isMobile } = useResponsive();
 

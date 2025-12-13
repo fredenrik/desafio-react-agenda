@@ -23,6 +23,18 @@ export interface UsersResponse {
 }
 
 export const usersApi = {
+  /**
+   * Obtiene lista de usuarios con paginación y búsqueda
+   *
+   * Nota: json-server no soporta paginar y buscar al mismo tiempo,
+   * por eso cuando hacemos una búsqueda traemos todo y paginamos en el cliente
+   *
+   * @param page - Número de página a traer
+   * @param limit - Cantidad de usuarios por página
+   * @param query - Término de búsqueda
+   * @returns Promise con los datos de usuarios y metadata de paginación para obtener
+   * el total de registros que existen en la BD
+   */
   getUsers: async (
     page: number = PAGINATION_CONFIG.DEFAULT_PAGE,
     limit: number = PAGINATION_CONFIG.DEFAULT_PAGE_SIZE,
@@ -34,13 +46,13 @@ export const usersApi = {
       let total: number;
 
       if (query.trim()) {
-        // Con búsqueda: obtener todos los resultados y paginar en cliente
+        // Si está buscando, traemos todos los resultados
         url = `${ENDPOINTS.USERS}?q=${encodeURIComponent(query)}`;
         const response = await ajax.getWithHeaders<User[]>(url);
         allData = response.data;
         total = allData.length;
-        
-        // Paginar manualmente los resultados
+
+        // Cortamos el array para simular paginación
         const start = (page - 1) * limit;
         const end = start + limit;
         const paginatedData = allData.slice(start, end);
@@ -52,9 +64,10 @@ export const usersApi = {
           total,
         };
       } else {
-        // Sin búsqueda: paginación del servidor
+        // Sin búsqueda usamos paginación del servidor (más eficiente)
         url = `${ENDPOINTS.USERS}?_page=${page}&_limit=${limit}`;
         const response = await ajax.getWithHeaders<User[]>(url);
+        // json-server devuelve el total en el header X-Total-Count
         total = parseInt(response.headers['x-total-count'] || '0', 10);
 
         return {
@@ -69,6 +82,11 @@ export const usersApi = {
     }
   },
 
+  /**
+   * Obtiene un usuario específico por su ID
+   * @param id - ID del usuario
+   * @returns Promise con los datos del usuario
+   */
   getUserById: async (id: number): Promise<User> => {
     try {
       const url = `${ENDPOINTS.USERS}/${id}`;
@@ -79,6 +97,11 @@ export const usersApi = {
     }
   },
 
+  /**
+   * Crea un nuevo usuario en el sistema
+   * @param userData - Datos del usuario a crear: name, description, photo
+   * @returns Promise con el usuario creado
+   */
   createUser: async (userData: CreateUserData): Promise<User> => {
     try {
       const data = await ajax.post<User>(ENDPOINTS.USERS, {
@@ -92,6 +115,11 @@ export const usersApi = {
     }
   },
 
+  /**
+   * Elimina un usuario del sistema
+   * @param id - ID del usuario a eliminar
+   * @returns Promise con confirmación de eliminación
+   */
   deleteUser: async (id: number): Promise<{ success: boolean; id: number }> => {
     try {
       const url = `${ENDPOINTS.USERS}/${id}`;

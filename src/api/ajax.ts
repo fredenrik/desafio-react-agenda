@@ -94,7 +94,7 @@ const ajaxXHR = {
           try {
             const data = JSON.parse(xhr.responseText);
             const responseHeaders: Record<string, string> = {};
-            
+
             // Extraer headers importantes
             const headerStr = xhr.getAllResponseHeaders();
             if (headerStr) {

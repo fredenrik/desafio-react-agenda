@@ -15,6 +15,7 @@ const { Title, Paragraph } = Typography;
 export const UsersPage = () => {
   const { getParam, getNumberParam, setParams } = useQueryParams();
 
+  // Leemos página y búsqueda de la URL (para poder compartir enlaces)
   const pageFromUrl = getNumberParam('page', 1);
   const searchFromUrl = getParam('search', '');
 
@@ -31,13 +32,14 @@ export const UsersPage = () => {
     }
   }, []);
 
-  // Resetear a página 1 cuando cambia la búsqueda
+  // Al buscar algo nuevo, volvemos a la página 1
   useEffect(() => {
     if (debouncedSearchTerm !== searchFromUrl) {
       goToPage(1);
     }
   }, [debouncedSearchTerm]);
 
+  // Traemos usuarios cada vez que cambia la página o el texto de búsqueda
   useEffect(() => {
     const loadUsers = async () => {
       const response = await fetchUsers(
@@ -46,12 +48,13 @@ export const UsersPage = () => {
         debouncedSearchTerm
       );
       if (response) {
-        setTotal(response.total);
+        setTotal(response.total); // Actualizamos el total para la paginación
       }
     };
     loadUsers();
   }, [pagination.current, debouncedSearchTerm]);
 
+  // Mantenemos la URL sincronizada (para poder copiar el link)
   useEffect(() => {
     setParams({
       page: pagination.current,
@@ -95,7 +98,7 @@ export const UsersPage = () => {
   };
 
   const handleCreateSuccess = async () => {
-    // Recargamos la lista después de crear un contacto
+    // Recargamos para mostrar el nuevo contacto
     await fetchUsers(pagination.current, pagination.pageSize, debouncedSearchTerm);
   };
 

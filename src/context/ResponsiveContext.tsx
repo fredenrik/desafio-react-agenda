@@ -9,6 +9,16 @@ interface ResponsiveContextValue {
 
 const ResponsiveContext = createContext<ResponsiveContextValue | undefined>(undefined);
 
+/**
+ * Provider para compartir estado responsive del dispositivo en todo el aplicativo
+ *
+ * Se justifica la implementación de ResponsiveContext ya que el estado no cambia con frecuencia.
+ * Todos los componentes comparten el mismo estado responsive y no se ven afectados por
+ * renderizaciones innecesarias.
+ *
+ * @param props - Props del provider
+ * @param props.children - Componentes hijos
+ */
 export const ResponsiveProvider = ({ children }: { children: ReactNode }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
@@ -21,6 +31,15 @@ export const ResponsiveProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * Hook para acceder al contexto responsive
+ *
+ * @example
+ * const { isMobile } = useResponsive();
+ *
+ * @throws Error si se usa fuera del ResponsiveProvider
+ * @returns Objeto con isMobile, isTablet, isDesktop
+ */
 export const useResponsive = () => {
   const context = useContext(ResponsiveContext);
   if (!context) {
