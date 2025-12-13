@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Typography, Space, message, Button, Flex, Divider } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { SearchBar } from '../../components/common/SearchBar';
 import { UserList } from '../../components/users/UserList';
+import { UserDrawer } from '../../components/users/UserDrawer';
 import { useUsersPagination, useDeleteUser } from '../../hooks';
 import { usePagination, useSearch } from '../../hooks';
 import { useQueryParams } from '../../hooks/useQueryParams';
@@ -22,12 +23,20 @@ export const UsersPage = () => {
   const { pagination, goToPage, setTotal } = usePagination(pageFromUrl);
   const { searchTerm, debouncedSearchTerm, setSearchTerm } = useSearch(searchFromUrl, 500);
   const [messageApi, contextHolder] = message.useMessage();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (searchFromUrl) {
       setSearchTerm(searchFromUrl);
     }
   }, []);
+
+  // Resetear a página 1 cuando cambia la búsqueda
+  useEffect(() => {
+    if (debouncedSearchTerm !== searchFromUrl) {
+      goToPage(1);
+    }
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -78,11 +87,16 @@ export const UsersPage = () => {
   };
 
   const handleAddContact = () => {
-    //TODO: navegación a "nuevo contacto"
-    messageApi.open({
-      type: 'info',
-      content: 'Implementa aquí la acción de “Agregar Contacto”',
-    });
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleCreateSuccess = async () => {
+    // Recargamos la lista después de crear un contacto
+    await fetchUsers(pagination.current, pagination.pageSize, debouncedSearchTerm);
   };
 
   return (
@@ -135,6 +149,8 @@ export const UsersPage = () => {
           </Space>
         </div>
       </Content>
+
+      <UserDrawer open={drawerOpen} onClose={handleDrawerClose} onSuccess={handleCreateSuccess} />
     </Layout>
   );
 };

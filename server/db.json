@@ -101,6 +101,24 @@
       "name": "Felipe",
       "description": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
       "photo": "https://images.pexels.com/photos/325682/pexels-photo-325682.jpeg?h=350&auto=compress&cs=tinysrgb"
+    },
+    {
+      "name": "Usuario Nuevo",
+      "description": "El usuario agregado es una prueba de este aplicativo web para lograr obtener la vacante proporcionada, de la cual me encuentro sumamente interesado",
+      "photo": "https://images.pexels.com/photos/325682/pexels-photo-325682.jpeg?h=350&auto=compress&cs=tinysrgb",
+      "id": 19
+    },
+    {
+      "name": "Usuario de prueba 2",
+      "description": "El siguiente usuario probara el funcionamiento de las notificaciones de exito o de error",
+      "photo": "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?h=350&auto=compress&cs=tinysrgb",
+      "id": 20
+    },
+    {
+      "name": "Usuario de prueba 3",
+      "description": "Prueba extra para verificar el funcionamiento de las notificaciones de exito",
+      "photo": "https://images.pexels.com/photos/193355/pexels-photo-193355.jpeg?h=350&auto=compress&cs=tinysrgb",
+      "id": 21
     }
   ]
 }
