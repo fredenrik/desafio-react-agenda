@@ -35,13 +35,14 @@ export const usersApi = {
         url += `&q=${encodeURIComponent(query)}`;
       }
 
-      const data = await ajax.get<User[]>(url);
+      const response = await ajax.getWithHeaders<User[]>(url);
+      const total = parseInt(response.headers['x-total-count'] || '0', 10);
 
       return {
-        data,
+        data: response.data,
         page,
         limit,
-        total: data.length,
+        total,
       };
     } catch (error) {
       throw handleApiError(error, 'Error al cargar los contactos');

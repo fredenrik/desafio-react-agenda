@@ -1,0 +1,21 @@
+.userList :global(.ant-list-header) {
+  border-block-end: none;
+}
+
+.header {
+  padding: 20px 16px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.row {
+  padding: 8px;
+}
+
+.colLeft {
+  text-align: left;
+}
+
+.colCenter {
+  text-align: center;
+}

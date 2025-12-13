@@ -9,6 +9,6 @@ export const ENDPOINTS = {
 
 export const PAGINATION_CONFIG = {
   DEFAULT_PAGE: 1,
-  DEFAULT_PAGE_SIZE: 10,
+  DEFAULT_PAGE_SIZE: 6,
   PAGE_SIZE_OPTIONS: [10, 20, 50],
 } as const;

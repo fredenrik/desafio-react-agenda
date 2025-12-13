@@ -5,6 +5,11 @@ interface RequestOptions {
   timeout?: number;
 }
 
+export interface AjaxResponse<T> {
+  data: T;
+  headers: Record<string, string>;
+}
+
 const ajaxXHR = {
   request: <T>(
     method: string,
@@ -69,6 +74,67 @@ const ajaxXHR = {
 
   get: <T>(url: string, options?: RequestOptions): Promise<T> => {
     return ajaxXHR.request<T>('GET', url, null, options);
+  },
+
+  getWithHeaders: <T>(url: string, options?: RequestOptions): Promise<AjaxResponse<T>> => {
+    return new Promise((resolve, reject) => {
+      const { headers = {}, timeout = API_CONFIG.TIMEOUT } = options || {};
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      Object.entries(headers).forEach(([key, value]) => {
+        xhr.setRequestHeader(key, value);
+      });
+
+      xhr.timeout = timeout;
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            const responseHeaders: Record<string, string> = {};
+            
+            // Extraer headers importantes
+            const headerStr = xhr.getAllResponseHeaders();
+            if (headerStr) {
+              headerStr.split('\r\n').forEach(line => {
+                const [key, value] = line.split(': ');
+                if (key && value) {
+                  responseHeaders[key.toLowerCase()] = value;
+                }
+              });
+            }
+
+            resolve({ data, headers: responseHeaders });
+          } catch {
+            resolve({ data: xhr.responseText as T, headers: {} });
+          }
+        } else {
+          reject({
+            status: xhr.status,
+            statusText: xhr.statusText,
+            response: xhr.responseText,
+          });
+        }
+      };
+
+      xhr.onerror = () =>
+        reject({
+          status: 0,
+          statusText: 'Network Error',
+          response: 'Error de conexión de red',
+        });
+
+      xhr.ontimeout = () =>
+        reject({
+          status: 408,
+          statusText: 'Request Timeout',
+          response: 'La petición excedió el tiempo de espera',
+        });
+
+      xhr.send();
+    });
   },
 
   post: <T>(url: string, data: unknown, options?: RequestOptions): Promise<T> => {
