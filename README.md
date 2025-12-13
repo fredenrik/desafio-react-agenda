@@ -129,6 +129,29 @@ Un solo `ResponsiveProvider` provee el estado responsive a toda la app, evitando
 - **Sin búsqueda**: Paginación del servidor
 - **Con búsqueda**: Paginación del cliente (json-server no soporta ambas)
 
+### Deep Linking
+
+La aplicación implementa deep linking para permitir compartir enlaces directos a búsquedas y páginas específicas. Esto se logra mediante:
+
+**Almacenamiento en la URL**:
+    - El número de página y el término de búsqueda se mantienen en la URL como parámetros de consulta
+    - Ejemplo: `/users?page=2&search=john`
+
+**Funcionalidad**:
+    - Al cargar la página, se leen los parámetros de la URL
+    - La búsqueda y paginación se sincronizan automáticamente con la URL
+    - Los enlaces pueden compartirse y al abrirlos se mostrará exactamente la misma vista
+
+**Implementación**:
+    - Uso del hook personalizado `useQueryParams` que envuelve `useSearchParams` de React Router
+    - Sincronización bidireccional entre el estado de la aplicación y la URL
+    - Actualización de la URL sin recargar la página usando la API History
+
+Esta característica mejora la experiencia de usuario permitiendo:
+- Compartir búsquedas específicas
+- Guardar marcadores con estados específicos
+- Navegación hacia atrás/adelante en el historial del navegador
+
 ### CSS Modules
 
 Estilos con scope local para evitar colisiones de nombres.

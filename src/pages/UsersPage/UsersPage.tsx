@@ -12,6 +12,19 @@ import styles from './UsersPage.module.css';
 const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
+/**
+ * Página principal que muestra la lista de usuarios con funcionalidades de:
+ * - Búsqueda y filtrado
+ * - Paginación
+ * - Eliminación de usuarios
+ * - Apertura de formulario para crear/editar usuarios
+ *
+ * @component
+ *
+ * @see useQueryParams Para el manejo de parámetros de URL
+ * @see useUsersPagination Para la obtención paginada de usuarios
+ */
+
 export const UsersPage = () => {
   const { getParam, getNumberParam, setParams } = useQueryParams();
 
