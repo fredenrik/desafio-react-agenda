@@ -10,7 +10,7 @@ interface ResponsiveContextValue {
 const ResponsiveContext = createContext<ResponsiveContextValue | undefined>(undefined);
 
 /**
- * Provider para compartir estado responsive del dispositivo en todo el aplicativo
+ * Provider para compartir estado responsive del dispositivo en toda la aplicacion
  *
  * Se justifica la implementación de ResponsiveContext ya que el estado no cambia con frecuencia.
  * Todos los componentes comparten el mismo estado responsive y no se ven afectados por

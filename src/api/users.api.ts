@@ -27,7 +27,7 @@ export const usersApi = {
    * Obtiene lista de usuarios con paginación y búsqueda
    *
    * Nota: json-server no soporta paginar y buscar al mismo tiempo,
-   * por eso cuando hacemos una búsqueda traemos todo y paginamos en el cliente
+   * por eso cuando hacemos una búsqueda traemos todos los registros y paginamos en el cliente
    *
    * @param page - Número de página a traer
    * @param limit - Cantidad de usuarios por página
