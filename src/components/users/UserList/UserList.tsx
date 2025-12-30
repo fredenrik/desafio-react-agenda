@@ -55,8 +55,9 @@ export const UserList = ({ users, loading, onDeleteUser, pagination }: UserListP
         dataSource={users}
         locale={{ emptyText: 'No se encontraron contactos' }}
         pagination={paginationConfig}
+        split={false}
         renderItem={user => (
-          <List.Item style={{ padding: 0 }}>
+          <List.Item className={styles.item}>
             <UserListCard user={user} onDelete={onDeleteUser} />
           </List.Item>
         )}

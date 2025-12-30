@@ -13,8 +13,22 @@ export const COMMON_RULES = {
    */
   required: (message: string): Rule => ({
     required: true,
+    whitespace: true,
     message,
   }),
+
+  /**
+   * Regla para evitar solo espacios en blanco o espacios al inicio/final
+   * @param message - Mensaje de error a mostrar
+   * @returns Regla de validación de Ant Design
+   */
+  noWhitespace: (message: string = 'No se permiten espacios en blanco'): Rule => ({
+    whitespace: true,
+    message,
+  }),
+
+  /**
+       * Regla para longitud mínima de texto
 
   /**
    * Regla para longitud mínima de texto
@@ -83,6 +97,7 @@ export const USER_VALIDATION = {
     COMMON_RULES.required('Por favor ingrese el nombre'),
     COMMON_RULES.minLength(2, 'El nombre debe tener al menos 2 caracteres'),
     COMMON_RULES.maxLength(50, 'El nombre no puede exceder 50 caracteres'),
+    COMMON_RULES.noWhitespace(),
   ],
 
   /** Validaciones para el campo descripción (10-500 caracteres) */
@@ -90,6 +105,7 @@ export const USER_VALIDATION = {
     COMMON_RULES.required('Por favor ingrese la descripción'),
     COMMON_RULES.minLength(10, 'La descripción debe tener al menos 10 caracteres'),
     COMMON_RULES.maxLength(500, 'La descripción no puede exceder 500 caracteres'),
+    COMMON_RULES.noWhitespace(),
   ],
 
   /** Validaciones para el campo foto (URL válida requerida) */

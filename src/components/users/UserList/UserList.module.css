@@ -2,6 +2,10 @@
   border-block-end: none;
 }
 
+.item {
+  padding: 0;
+}
+
 .header {
   padding: 20px 16px;
   background-color: #fafafa;
@@ -12,10 +16,28 @@
   padding: 8px;
 }
 
-.colLeft {
+.col {
   text-align: left;
+  padding-right: 16px;
 }
 
 .colCenter {
   text-align: center;
+}
+
+.listIconButton {
+  font-size: 20px;
+}
+
+.listDivider {
+  margin: 0;
+}
+
+.card {
+  width: 100%;
+}
+
+.cardTitle {
+  font-size: 16px;
+  color: #1890ff;
 }

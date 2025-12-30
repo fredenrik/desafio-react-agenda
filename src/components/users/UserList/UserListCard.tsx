@@ -1,6 +1,7 @@
 import { Card, Avatar, Button, Popconfirm, Typography, Flex } from 'antd';
 import { UserOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { User } from '../../../api';
+import styles from './UserList.module.css';
 
 const { Text } = Typography;
 
@@ -12,7 +13,7 @@ interface UserCardProps {
 export const UserListCard = ({ user, onDelete }: UserCardProps) => {
   return (
     <Card
-      style={{ width: '100%' }}
+      className={styles.card}
       actions={[
         <Popconfirm
           key="delete"
@@ -32,7 +33,7 @@ export const UserListCard = ({ user, onDelete }: UserCardProps) => {
       <Flex vertical gap={12}>
         <Flex gap={12} align="center">
           <Avatar size={48} src={user.photo} icon={<UserOutlined />} />
-          <Text strong style={{ fontSize: '16px', color: '#1890ff' }}>
+          <Text strong className={styles.cardTitle}>
             {user.name}
           </Text>
         </Flex>

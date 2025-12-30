@@ -1,7 +1,8 @@
-import { Drawer, Button, Space, Form } from 'antd';
+import { Drawer, Button, Space, Form, Flex } from 'antd';
 import { useResponsive } from '../../../context';
 import { UserForm } from '../UserForm';
 import type { CreateUserData } from '../../../api';
+import { SubmitButton } from '../../common/SubmitButton';
 
 interface UserDrawerProps {
   open: boolean;
@@ -37,16 +38,32 @@ export const UserDrawer = ({ open, onClose, onSuccess }: UserDrawerProps) => {
       open={open}
       styles={{
         body: {
-          paddingBottom: 80,
+          paddingBottom: isMobile ? 0 : 80,
         },
       }}
       extra={
-        <Space>
-          <Button onClick={handleCancel}>Cancelar</Button>
-          <Button onClick={handleSubmit} type="primary">
-            Guardar
-          </Button>
-        </Space>
+        !isMobile && (
+          <Space>
+            <Button onClick={handleCancel}>Cancelar</Button>
+            <SubmitButton onClick={handleSubmit} form={form}>
+              Guardar
+            </SubmitButton>
+          </Space>
+        )
+      }
+      footer={
+        isMobile && (
+          <div style={{ textAlign: 'center' }}>
+            <Flex justify={'center'} align={'center'} gap={8}>
+              <Button onClick={handleCancel} size={'large'} block>
+                Cancelar
+              </Button>
+              <SubmitButton onClick={handleSubmit} form={form} size={'large'} block>
+                Guardar
+              </SubmitButton>
+            </Flex>
+          </div>
+        )
       }
     >
       <UserForm form={form} onSuccess={handleSuccess} />

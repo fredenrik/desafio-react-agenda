@@ -11,10 +11,10 @@ const LAYOUT_COLS = {
 
 export const UserListHeader = () => (
   <Row className={styles.header}>
-    <Col span={LAYOUT_COLS.NAME} className={styles.colLeft}>
+    <Col span={LAYOUT_COLS.NAME} className={styles.col}>
       <Text strong>Nombre</Text>
     </Col>
-    <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.colLeft}>
+    <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.col}>
       <Text strong>Descripción</Text>
     </Col>
     <Col span={LAYOUT_COLS.ACTIONS} className={styles.colCenter}>

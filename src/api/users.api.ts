@@ -105,9 +105,9 @@ export const usersApi = {
   createUser: async (userData: CreateUserData): Promise<User> => {
     try {
       const data = await ajax.post<User>(ENDPOINTS.USERS, {
-        name: userData.name,
-        description: userData.description,
-        photo: userData.photo,
+        name: userData.name.trim(),
+        description: userData.description.trim(),
+        photo: userData.photo.trim(),
       });
       return data;
     } catch (error) {

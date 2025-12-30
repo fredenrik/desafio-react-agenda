@@ -86,6 +86,17 @@ export const UsersPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleRefreshList = async () => {
+    const response = await fetchUsers(pagination.current, pagination.pageSize, debouncedSearchTerm);
+    if (response) {
+      const newTotal = response.total;
+      setTotal(newTotal);
+
+      const lastPage = Math.ceil(newTotal / pagination.pageSize);
+      goToPage(lastPage);
+    }
+  };
+
   const handleDelete = async (id: number) => {
     const result = await deleteUser(id);
     if (result.success) {
@@ -93,7 +104,7 @@ export const UsersPage = () => {
         type: 'success',
         content: 'Contacto eliminado exitosamente',
       });
-      await fetchUsers(pagination.current, pagination.pageSize, debouncedSearchTerm);
+      await handleRefreshList();
     } else {
       messageApi.open({
         type: 'error',
@@ -108,11 +119,6 @@ export const UsersPage = () => {
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
-  };
-
-  const handleCreateSuccess = async () => {
-    // Recargamos para mostrar el nuevo contacto
-    await fetchUsers(pagination.current, pagination.pageSize, debouncedSearchTerm);
   };
 
   return (
@@ -166,7 +172,7 @@ export const UsersPage = () => {
         </div>
       </Content>
 
-      <UserDrawer open={drawerOpen} onClose={handleDrawerClose} onSuccess={handleCreateSuccess} />
+      <UserDrawer open={drawerOpen} onClose={handleDrawerClose} onSuccess={handleRefreshList} />
     </Layout>
   );
 };

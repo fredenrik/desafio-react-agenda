@@ -21,13 +21,13 @@ export const UserListItem = ({ user, showDivider, onDelete }: UserListItemProps)
   return (
     <>
       <Row className={styles.row}>
-        <Col span={LAYOUT_COLS.NAME} className={styles.colLeft}>
+        <Col span={LAYOUT_COLS.NAME} className={styles.col}>
           <Flex gap={16} align="center">
             <Avatar size={64} src={user.photo} icon={<UserOutlined />} />
             <span style={{ color: '#1890ff', fontSize: '16px' }}>{user.name}</span>
           </Flex>
         </Col>
-        <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.colLeft}>
+        <Col span={LAYOUT_COLS.DESCRIPTION} className={styles.col}>
           <Text>{user.description}</Text>
         </Col>
         <Col span={LAYOUT_COLS.ACTIONS} className={styles.colCenter}>
@@ -39,12 +39,12 @@ export const UserListItem = ({ user, showDivider, onDelete }: UserListItemProps)
             cancelText="Cancelar"
             okButtonProps={{ danger: true }}
           >
-            <Button type="text" icon={<DeleteOutlined style={{ fontSize: '20px' }} />} />
+            <Button type="text" icon={<DeleteOutlined className={styles.listIconButton} />} />
           </Popconfirm>
         </Col>
       </Row>
 
-      {showDivider && <Divider style={{ margin: 0 }} />}
+      {showDivider && <Divider className={styles.listDivider} />}
     </>
   );
 };
